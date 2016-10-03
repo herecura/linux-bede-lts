@@ -6,19 +6,8 @@
 _kernelname=-bede-lts
 pkgbase="linux$_kernelname"
 pkgname=("linux$_kernelname" "linux$_kernelname-headers")
-_basekernel=4.1
-_patchver=19
-if [[ "$_patchver" == rc* ]]; then
-    # rc kernel
-    _baseurl='https://www.kernel.org/pub/linux/kernel/v4.x/testing'
-    pkgver=${_basekernel}$_patchver
-    _linuxname="linux-${_basekernel}-$_patchver"
-else
-    # $_patchver is no RC build normal
-    _baseurl='https://www.kernel.org/pub/linux/kernel/v4.x'
-    pkgver=$_basekernel
-    _linuxname="linux-$_basekernel"
-fi
+_basekernel=4.4
+_patchver=23
 pkgrel=1
 arch=('i686' 'x86_64')
 license=('GPL2')
@@ -32,71 +21,66 @@ validpgpkeys=(
 )
 
 source=(
-    "$_baseurl/$_linuxname.tar.xz"
-    "$_baseurl/$_linuxname.tar.sign"
+    "https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.xz"
+    "https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.sign"
     # the main kernel config files
     "config-desktop.i686"
     "config-desktop.x86_64"
     # standard config files for mkinitcpio ramdisk
     "linux$_kernelname.preset"
     # sysctl tweaks
-    'sysctl-linux-bede.conf'
-)
-sha256sums=(
-    'caf51f085aac1e1cea4d00dbbf3093ead07b551fc07b31b2a989c05f8ea72d9f'
-    'SKIP'
-    '7a4bda6b4acfeebc771e836f0ba592a9dd84669acafcde4e7a7015e9d6bc3189'
-    '21139cd6625b7db90dc9f86893f18e09a8ea44f42f108c63376601a491f6093e'
-    'd5bb4aabbd556f8a3452198ac42cad6ecfae020b124bcfea0aa7344de2aec3b5'
-    'cc0fa883ee34a705c31ea6262a8a61f292d1312d34333dbbde60d45fc976778b'
+    #'sysctl-linux-bede.conf'
 )
 
 # revision patches
-if [[ "$_patchver" =~ ^[0-9]*$ ]]; then
-    if [[ $_patchver -ne 0 ]]; then
-        pkgver=$_basekernel.$_patchver
-        _patchname="patch-$pkgver"
-        source=( "${source[@]}"
-            "$_baseurl/$_patchname.xz"
-            "$_baseurl/$_patchname.sign"
-        )
-        sha256sums=( "${sha256sums[@]}"
-            'be12d828fd185db6f51c261dd41b2bf30e866ee85d2e2c166c3035d8084f7b8e'
-            'SKIP'
-        )
-    fi
+if [ ${_patchver} -ne 0 ]; then
+    pkgver=$_basekernel.$_patchver
+    _patchname="patch-$pkgver"
+    source=( "${source[@]}"
+        "https://www.kernel.org/pub/linux/kernel/v4.x/${_patchname}.xz"
+        "https://www.kernel.org/pub/linux/kernel/v4.x/${_patchname}.sign"
+    )
+else
+    pkgver=$_basekernel
 fi
 
-## extra patches
+# extra patches
 _extrapatches=(
 )
 _extrapatchessums=(
 )
-if [[ ${#_extrapatches[@]} -ne 0 ]]; then
+if [ ${#_extrapatches[@]} -ne 0 ]; then
     source=( "${source[@]}"
         "${_extrapatches[@]}"
     )
-    sha256sums=( "${sha256sums[@]}"
-        "${_extrapatchessums[@]}"
-    )
 fi
 
+sha256sums=('401d7c8fef594999a460d10c72c5a94e9c2e1022f16795ec51746b0d165418b2'
+            'SKIP'
+            'a230bb89264542533ba62bbf8d32eede81c0a348f6863ca2dae34e4122b0c2c0'
+            '661c341f88e5c682706889320ea5af90056f66f0286987d5d78e8c4b1f062b0b'
+            'd5bb4aabbd556f8a3452198ac42cad6ecfae020b124bcfea0aa7344de2aec3b5'
+            '0592b15bb78879ffa72933c71b8b11787a7b4560ea33b8ba8b421df034ee74c8'
+            'SKIP')
+
+
 prepare() {
-    cd "$srcdir/$_linuxname"
+    cd "$srcdir/linux-$_basekernel"
 
     # Add revision patches
-    if [[ "$_patchver" =~ ^[0-9]+$ ]]; then
-        if [[ $_patchver -ne 0 ]]; then
-            msg2 "apply $_patchname"
-            patch -Np1 -i "$srcdir/$_patchname"
-        fi
+    if [ $_patchver -ne 0 ]; then
+        msg2 "apply $_patchname"
+        patch -Np1 -i "$srcdir/$_patchname"
     fi
 
     # extra patches
     for patch in ${_extrapatches[@]}; do
         patch="$(basename "$patch" | sed -e 's/\.\(gz\|bz2\|xz\)//')"
-        msg2 "apply $patch"
-        patch -Np1 -i "$srcdir/$patch"
+        pext=${patch##*.}
+        if [[ "$pext" == 'patch' ]] || [[ "$pext" == 'diff' ]]; then
+            msg2 "apply $patch"
+            patch -Np1 -i "$srcdir/$patch"
+        fi
     done
 
     # set configuration
@@ -112,22 +96,19 @@ prepare() {
 
     # set extraversion to pkgrel
     msg2 "set extraversion to $pkgrel"
-    if [[ "$_patchver" == rc* ]]; then
-        sed -ri "s|^(EXTRAVERSION =).*|\1 ${_patchver}-$pkgrel|" Makefile
-    else
-        sed -ri "s|^(EXTRAVERSION =).*|\1 -$pkgrel|" Makefile
-    fi
+    sed -ri "s|^(EXTRAVERSION =).*|\1 -$pkgrel|" Makefile
 
     # don't run depmod on 'make install'. We'll do this ourselves in packaging
     sed -i '2iexit 0' scripts/depmod.sh
 
     # hack to prevent output kernel from being marked as dirty or git
     msg2 "apply hack to prevent kernel tree being marked dirty"
-    echo "" > "$srcdir/$_linuxname/.scmversion"
+    echo "" > "$srcdir/linux-$_basekernel/.scmversion"
+
 }
 
 build() {
-    cd "$srcdir/$_linuxname"
+    cd "$srcdir/linux-$_basekernel"
 
     msg2 "prepare"
     make prepare
@@ -160,14 +141,11 @@ package_linux-bede-lts() {
         'crda: to set the correct wireless channels of your country'
         'linux-firmware: when having some hardware needing special firmware'
     )
-    replaces=(
-        'nouveau-drm' 'kernel26-slk' "kernel26$_kernelname" "linux-bemm"
-    )
 
-    install=linux-bede.install
+    install=$pkgname.install
 
     KARCH=x86
-    cd "$srcdir/$_linuxname"
+    cd "$srcdir/linux-$_basekernel"
 
     mkdir -p "$pkgdir"/{lib/modules,lib/firmware,boot,usr}
 
@@ -188,7 +166,7 @@ package_linux-bede-lts() {
     sed \
         -e  "s/KERNEL_NAME=.*/KERNEL_NAME=$_kernelname/g" \
         -e  "s/KERNEL_VERSION=.*/KERNEL_VERSION=$_kernver/g" \
-        -i "$startdir/linux-bede.install"
+        -i "$startdir/$pkgname.install"
     sed \
         -e "s|source .*|source /etc/mkinitcpio.d/$pkgname.kver|g" \
         -e "s|default_image=.*|default_image=\"/boot/initramfs$_kernelname.img\"|g" \
@@ -220,19 +198,16 @@ package_linux-bede-lts() {
     mv "$pkgdir/lib" "$pkgdir/usr/"
 
     # install sysctl tweaks
-    install -Dm644 "$srcdir/sysctl-linux-bede.conf" "$pkgdir/usr/lib/sysctl.d/60-linux-bede-lts.conf"
+    #install -Dm644 "$srcdir/sysctl-linux-bede.conf" "$pkgdir/usr/lib/sysctl.d/60-linux-bede-lts.conf"
 }
 
 package_linux-bede-lts-headers() {
     pkgdesc="Header files and scripts for building modules for linux$_kernelname"
     provides=('linux-headers')
-
-    KARCH=x86
-
     install -dm755 "$pkgdir/usr/lib/modules/$_kernver"
     cd "$pkgdir/usr/lib/modules/$_kernver"
     ln -sf ../../../src/linux-$_kernver build
-    cd "$srcdir/$_linuxname"
+    cd "$srcdir/linux-$_basekernel"
     install -D -m644 Makefile \
         "$pkgdir/usr/src/linux-$_kernver/Makefile"
     install -D -m644 kernel/Makefile \

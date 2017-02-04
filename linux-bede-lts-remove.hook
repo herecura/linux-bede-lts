@@ -1,7 +1,7 @@
 [Trigger]
 Type = File
 Operation = Remove
-Target = usr/lib/modules/*-BEDE-LTS-external/*
+Target = boot/vmlinuz-bede-lts
 
 [Action]
 Description = remove initramfs files for linux-bede-lts

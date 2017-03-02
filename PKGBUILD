@@ -6,8 +6,8 @@
 _kernelname=-bede-lts
 pkgbase="linux$_kernelname"
 pkgname=("linux$_kernelname" "linux$_kernelname-headers")
-_basekernel=4.4
-_patchver=52
+_basekernel=4.9
+_patchver=13
 pkgrel=1
 arch=('i686' 'x86_64')
 license=('GPL2')
@@ -33,7 +33,7 @@ source=(
     'linux-bede-lts-02-initcpio.hook'
     'linux-bede-lts-remove.hook'
     # sysctl tweaks
-    #'sysctl-linux-bede.conf'
+    'sysctl-linux-bede.conf'
 )
 
 # revision patches
@@ -60,18 +60,19 @@ if [ ${#_extrapatches[@]} -ne 0 ]; then
     )
 fi
 
-sha256sums=('401d7c8fef594999a460d10c72c5a94e9c2e1022f16795ec51746b0d165418b2'
+sha256sums=('029098dcffab74875e086ae970e3828456838da6e0ba22ce3f64ef764f3d7f1a'
             'SKIP'
-            '71b2267ec82d68e832b77623ffd0e4cd9adeef8127808c497b593cf955db97a2'
-            'c57cab431d070299e9fd34d920e1d746a8e8f58c48a5f694ba88576f7d129a5c'
+            '8bf0ec905bbcf733895c28425b8dd887d8b7d5b8be7d67879cb3d590fd390acd'
+            '695c7537fb7e35b25aab98eeee4f84571dc15312ad0c5e9da341cfe943332dfa'
             'd5bb4aabbd556f8a3452198ac42cad6ecfae020b124bcfea0aa7344de2aec3b5'
             '52702085e848078f52ac0f6bd1f35d33632dfbd5bc327522f4f67a889d8e208c'
             '76c5b865f8c1d74f582f26ee68ad389baaf99e18604a85eee046e5ccc8de5469'
             'facaf121a0c8ffbf15ed5c108dca736f25f805c0501f53032553dfc90942a8f8'
-            '96dfdcb3144509275bba3b3f8ad925b18f31a22dcab5abfd5a4b816977a4e8c3'
+            '9f44e4221ec42d15eae51b95d7237e69d8d140e43b9b9c4c00e4eb67d1976576'
+            '87a0f07dd393e2d08850f0536417d091684535ff0c8ab8f8d9aeab1db38589bf'
             'SKIP'
             'bb8af32880059e681396a250d8e78f600f248da8ad4f0e76d7923badb5ee8b42'
-            '4d4a622733c2ba742256f369c32a1e98fc216966589f260c7457d299dbb55971'
+            'fd195000a47ffadfcdf108d3aec5b7472ca2ed9e72f6271cd7b8f380132d7a20'
             '09189eb269a9fd16898cf90a477df23306236fb897791e8d04e5a75d5007bbff')
 
 
@@ -214,7 +215,7 @@ package_linux-bede-lts() {
     install -Dm644 "$srcdir/linux-bede-lts-remove.hook" "$pkgdir/usr/share/libalpm/hooks/linux-bede-lts-remove.hook"
 
     # install sysctl tweaks
-    #install -Dm644 "$srcdir/sysctl-linux-bede.conf" "$pkgdir/usr/lib/sysctl.d/60-linux-bede-lts.conf"
+    install -Dm644 "$srcdir/sysctl-linux-bede.conf" "$pkgdir/usr/lib/sysctl.d/60-linux-bede-lts.conf"
 }
 
 package_linux-bede-lts-headers() {

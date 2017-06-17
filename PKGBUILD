@@ -7,7 +7,7 @@ _kernelname=-bede-lts
 pkgbase="linux$_kernelname"
 pkgname=("linux$_kernelname" "linux$_kernelname-headers")
 _basekernel=4.9
-_patchver=32
+_patchver=33
 pkgrel=1
 arch=('i686' 'x86_64')
 license=('GPL2')
@@ -69,7 +69,7 @@ sha256sums=('029098dcffab74875e086ae970e3828456838da6e0ba22ce3f64ef764f3d7f1a'
             '76c5b865f8c1d74f582f26ee68ad389baaf99e18604a85eee046e5ccc8de5469'
             'facaf121a0c8ffbf15ed5c108dca736f25f805c0501f53032553dfc90942a8f8'
             '9f44e4221ec42d15eae51b95d7237e69d8d140e43b9b9c4c00e4eb67d1976576'
-            'a8223d4c6ac3717c433d03ce9aa5b21bb74213a63d8b8960549105da189dbcac'
+            '939006459d6bd9ac4374956353b795a746bd4a6b357eea1e349cd84638713ad2'
             'SKIP'
             'bb8af32880059e681396a250d8e78f600f248da8ad4f0e76d7923badb5ee8b42'
             'fd195000a47ffadfcdf108d3aec5b7472ca2ed9e72f6271cd7b8f380132d7a20'

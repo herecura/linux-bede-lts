@@ -8,7 +8,7 @@ pkgbase="linux$_kernelname"
 pkgname=("linux$_kernelname" "linux$_kernelname-headers")
 _basekernel=4.9
 _patchver=33
-pkgrel=1
+pkgrel=2
 arch=('i686' 'x86_64')
 license=('GPL2')
 makedepends=('bc' 'kmod')
@@ -53,6 +53,7 @@ _extrapatches=(
     'apple-gmux.patch'
     'macbook-suspend.patch'
     'poweroff-quirk-workaround.patch'
+    'https://git.kernel.org/pub/scm/linux/kernel/git/stable/stable-queue.git/plain/queue-4.9/mm-larger-stack-guard-gap-between-vmas.patch'
 )
 if [ ${#_extrapatches[@]} -ne 0 ]; then
     source=( "${source[@]}"
@@ -60,21 +61,21 @@ if [ ${#_extrapatches[@]} -ne 0 ]; then
     )
 fi
 
-sha256sums=('029098dcffab74875e086ae970e3828456838da6e0ba22ce3f64ef764f3d7f1a'
+sha512sums=('bf67ff812cc3cb7e5059e82cc5db0d9a7c5637f7ed9a42e4730c715bf7047c81ed3a571225f92a33ef0b6d65f35595bc32d773356646df2627da55e9bc7f1f1a'
             'SKIP'
-            'e2663ce890dc47f0537ded48acd93bdb757197f7586dfa4fb906fc534404a297'
-            '92267725e147c0f648588f94a56aa6b24af9cce90600034f1822431d66238fac'
-            'd5bb4aabbd556f8a3452198ac42cad6ecfae020b124bcfea0aa7344de2aec3b5'
-            '52702085e848078f52ac0f6bd1f35d33632dfbd5bc327522f4f67a889d8e208c'
-            '76c5b865f8c1d74f582f26ee68ad389baaf99e18604a85eee046e5ccc8de5469'
-            'facaf121a0c8ffbf15ed5c108dca736f25f805c0501f53032553dfc90942a8f8'
-            '9f44e4221ec42d15eae51b95d7237e69d8d140e43b9b9c4c00e4eb67d1976576'
-            '939006459d6bd9ac4374956353b795a746bd4a6b357eea1e349cd84638713ad2'
+            '6d24b5e4ed0cb85d0e2c620a1ab184b60224ebeaae1515531b4b9971e5a6a3d3175488fa51cd038176ba35a0b08945483d8133f1bf5a01417d5369a0776e9944'
+            '60e45212dd37b828a15bdd41f38e2842a4e93c9e2debb77861ba8d855034f62488183277a1ca30c5fccc2443f28f6c3216c74da61817f9ffa013d68873944e30'
+            '501627d920b5482b99045b17436110b90f7167d0ed33fe3b4c78753cb7f97e7f976d44e2dae1383eae79963055ef74b704446e147df808cdcb9b634fd406e757'
+            '6db48a1d85c6010ad1b0bf5208ba8da39a03f2b67d6e5da80bc054a8730c40e99bcc050f6e559ff813a7bfc561a3257f933474a55c59e5b0705248534bbba7af'
+            '8f97c57bf456e9d5a696f93ee86b61411634f39c52dd3307a94eeb79d4d5951b69299001bf086fee32df4d2442fbc8977ac07afb25bc62f01d3f205353f851ae'
+            '105e5c4eeb4431170154a719be8c5b6e49ba11abcd11e51d5f70a9d7af7f1da753b28bb9e378e068c37ac799f77907380fb9ea2ff6af3c25aaaf5a4c979993c1'
+            'cc249aa48d362a570ec7e16fa9760552fd5fcc3615a29c154b2ee97e51c3c1c1c7449efd031bca59a7b65c473a2afaff075a043dbcb0fbf4a600c83cc9cb8f83'
+            'fed92167db05cbdd5cae686f3656c8cf7ada3a87099f2d26782cb904f6f73336b2ad9263baa3a820a5fd7bcd72650bcc29905ca7d3b60c0541ab2b34a2edda9b'
             'SKIP'
-            'bb8af32880059e681396a250d8e78f600f248da8ad4f0e76d7923badb5ee8b42'
-            'fd195000a47ffadfcdf108d3aec5b7472ca2ed9e72f6271cd7b8f380132d7a20'
-            '09189eb269a9fd16898cf90a477df23306236fb897791e8d04e5a75d5007bbff')
-
+            '7ec816bfb2e56016eb79614d1619a4921f46a55940b1a4e44d9490375bb63c15c6b61d6275354378d4edc1c88f93afbc08d193c269bcc57a350f9da095e91e10'
+            'f27b52dbf081cb6402b651b02744c99d340eac886cc3deff95ad426246976f37c8c0acae5b5dc80c8b0a642d66882d3dddc841810ce08ae1519a3d0e8c8ce423'
+            '5bf7e9487d3b31c0207a797b7abfd89794249f1dd16689423203722b201a7d1e40735ed957596ffb10b1dacb87d16b99d4560ff87aed7b24322c257c979d5acc'
+            '648a5431dfcf3d35f9bcac1a03f4bf879c79393fb8ffbaf3b8e5f516cce156d80bab32a5de8e0c059f623e91b847d1ee11f425784fc08a94096b7b444d0f8cfd')
 
 prepare() {
     cd "$srcdir/linux-$_basekernel"

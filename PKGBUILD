@@ -7,8 +7,8 @@ _kernelname=-bede-lts
 pkgbase="linux$_kernelname"
 pkgname=("linux$_kernelname" "linux$_kernelname-headers")
 _basekernel=4.9
-_patchver=33
-pkgrel=3
+_patchver=34
+pkgrel=1
 arch=('i686' 'x86_64')
 license=('GPL2')
 makedepends=('bc' 'kmod')
@@ -53,8 +53,6 @@ _extrapatches=(
     'apple-gmux.patch'
     'macbook-suspend.patch'
     'poweroff-quirk-workaround.patch'
-    'https://git.kernel.org/pub/scm/linux/kernel/git/stable/stable-queue.git/plain/queue-4.9/mm-larger-stack-guard-gap-between-vmas.patch'
-    'https://git.kernel.org/pub/scm/linux/kernel/git/stable/stable-queue.git/plain/queue-4.9/mm-fix-new-crash-in-unmapped_area_topdown.patch'
 )
 if [ ${#_extrapatches[@]} -ne 0 ]; then
     source=( "${source[@]}"
@@ -71,13 +69,11 @@ sha512sums=('bf67ff812cc3cb7e5059e82cc5db0d9a7c5637f7ed9a42e4730c715bf7047c81ed3
             '8f97c57bf456e9d5a696f93ee86b61411634f39c52dd3307a94eeb79d4d5951b69299001bf086fee32df4d2442fbc8977ac07afb25bc62f01d3f205353f851ae'
             '105e5c4eeb4431170154a719be8c5b6e49ba11abcd11e51d5f70a9d7af7f1da753b28bb9e378e068c37ac799f77907380fb9ea2ff6af3c25aaaf5a4c979993c1'
             'cc249aa48d362a570ec7e16fa9760552fd5fcc3615a29c154b2ee97e51c3c1c1c7449efd031bca59a7b65c473a2afaff075a043dbcb0fbf4a600c83cc9cb8f83'
-            'fed92167db05cbdd5cae686f3656c8cf7ada3a87099f2d26782cb904f6f73336b2ad9263baa3a820a5fd7bcd72650bcc29905ca7d3b60c0541ab2b34a2edda9b'
+            '291df1857d2a25abbca01cb51a301b0ad13c71f43ece87fb30f29e5a30df2cac3ffaec1201a70e577511c4df3f34617044ec32fcd537807db6d756856d137a14'
             'SKIP'
             '7ec816bfb2e56016eb79614d1619a4921f46a55940b1a4e44d9490375bb63c15c6b61d6275354378d4edc1c88f93afbc08d193c269bcc57a350f9da095e91e10'
             'f27b52dbf081cb6402b651b02744c99d340eac886cc3deff95ad426246976f37c8c0acae5b5dc80c8b0a642d66882d3dddc841810ce08ae1519a3d0e8c8ce423'
-            '5bf7e9487d3b31c0207a797b7abfd89794249f1dd16689423203722b201a7d1e40735ed957596ffb10b1dacb87d16b99d4560ff87aed7b24322c257c979d5acc'
-            '648a5431dfcf3d35f9bcac1a03f4bf879c79393fb8ffbaf3b8e5f516cce156d80bab32a5de8e0c059f623e91b847d1ee11f425784fc08a94096b7b444d0f8cfd'
-            'b0e49ecaff9834afbc221a5cf771b81647a2154f3a1745d1f7c15ba565ef385b20a18facaebd5c190eed707982a6ee2e419c7133b5062fe53dbf71553ac89472')
+            '5bf7e9487d3b31c0207a797b7abfd89794249f1dd16689423203722b201a7d1e40735ed957596ffb10b1dacb87d16b99d4560ff87aed7b24322c257c979d5acc')
 
 prepare() {
     cd "$srcdir/linux-$_basekernel"

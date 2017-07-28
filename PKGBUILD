@@ -7,8 +7,8 @@ _kernelname=-bede-lts
 pkgbase="linux$_kernelname"
 pkgname=("linux$_kernelname" "linux$_kernelname-headers")
 _basekernel=4.9
-_patchver=39
-pkgrel=2
+_patchver=40
+pkgrel=1
 arch=('i686' 'x86_64')
 license=('GPL2')
 makedepends=('bc' 'kmod')
@@ -69,7 +69,7 @@ sha512sums=('bf67ff812cc3cb7e5059e82cc5db0d9a7c5637f7ed9a42e4730c715bf7047c81ed3
             '8f97c57bf456e9d5a696f93ee86b61411634f39c52dd3307a94eeb79d4d5951b69299001bf086fee32df4d2442fbc8977ac07afb25bc62f01d3f205353f851ae'
             '105e5c4eeb4431170154a719be8c5b6e49ba11abcd11e51d5f70a9d7af7f1da753b28bb9e378e068c37ac799f77907380fb9ea2ff6af3c25aaaf5a4c979993c1'
             'cc249aa48d362a570ec7e16fa9760552fd5fcc3615a29c154b2ee97e51c3c1c1c7449efd031bca59a7b65c473a2afaff075a043dbcb0fbf4a600c83cc9cb8f83'
-            '1ea5d00c58e60c8125e9ba13ae0b68392a1d7c608023d95292abec550900398a029494d7fcdcf304de12294d5f55da50a31fc9d8d4c28c0962a28cbdd88028c3'
+            'ab9c26493069f87a9d8c6c97db1a84f03a1b1221f47facc68e65d79ef75d9c7bd93c1f39eee334e4f45381b2c84ff3acb8870478c61c4d8a648984db55be5ad3'
             'SKIP'
             '7ec816bfb2e56016eb79614d1619a4921f46a55940b1a4e44d9490375bb63c15c6b61d6275354378d4edc1c88f93afbc08d193c269bcc57a350f9da095e91e10'
             'f27b52dbf081cb6402b651b02744c99d340eac886cc3deff95ad426246976f37c8c0acae5b5dc80c8b0a642d66882d3dddc841810ce08ae1519a3d0e8c8ce423'

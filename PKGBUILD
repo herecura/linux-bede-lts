@@ -8,8 +8,8 @@ pkgbase="linux$_kernelname"
 pkgname=("linux$_kernelname" "linux$_kernelname-headers")
 _basekernel=4.9
 _patchver=51
-pkgrel=1
-arch=('i686' 'x86_64')
+pkgrel=2
+arch=('x86_64')
 license=('GPL2')
 makedepends=('bc' 'kmod')
 url="http://www.kernel.org"
@@ -24,7 +24,6 @@ source=(
     "https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.xz"
     "https://www.kernel.org/pub/linux/kernel/v4.x/linux-${_basekernel}.tar.sign"
     # the main kernel config files
-    "config-desktop.i686"
     "config-desktop.x86_64"
     # standard config files for mkinitcpio ramdisk
     "linux$_kernelname.preset"
@@ -62,7 +61,6 @@ fi
 
 sha512sums=('bf67ff812cc3cb7e5059e82cc5db0d9a7c5637f7ed9a42e4730c715bf7047c81ed3a571225f92a33ef0b6d65f35595bc32d773356646df2627da55e9bc7f1f1a'
             'SKIP'
-            '759b23d3189fe34d2c5cb4c854f08d82bff49e1be592021a524eecb1118809fe6a5adf6f0ca07f753e3ec4076ac338b481c82a7e7837cff69984ce2361ced0d6'
             '4d5e7270b700e7266f939e64a08c875576eda13c7a489c2a1419fb9c676a22019028cd3632cf00f1e5d75dfa128b9deaacf3af484c5017ef83c5e659e01ba4fc'
             '501627d920b5482b99045b17436110b90f7167d0ed33fe3b4c78753cb7f97e7f976d44e2dae1383eae79963055ef74b704446e147df808cdcb9b634fd406e757'
             '6db48a1d85c6010ad1b0bf5208ba8da39a03f2b67d6e5da80bc054a8730c40e99bcc050f6e559ff813a7bfc561a3257f933474a55c59e5b0705248534bbba7af'
@@ -96,11 +94,7 @@ prepare() {
 
     # set configuration
     msg2 "copy configuration"
-    if [[ "$CARCH" = "x86_64" ]]; then
-        cat "$srcdir/config-desktop.x86_64" >./.config
-    else
-        cat "$srcdir/config-desktop.i686" >./.config
-    fi
+    cat "$srcdir/config-desktop.x86_64" >./.config
     if [[ "$_kernelname" != "" ]]; then
         sed -i "s|CONFIG_LOCALVERSION=.*|CONFIG_LOCALVERSION=\"\U$_kernelname\"|g" ./.config
     fi

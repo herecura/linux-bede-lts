@@ -6,8 +6,9 @@
 _kernelname=-bede-lts
 pkgbase="linux$_kernelname"
 pkgname=("linux$_kernelname" "linux$_kernelname-headers")
-_basekernel=4.9
-_patchver=64
+_basekernel=4.14
+_patchver=1
+pkgver=$_basekernel
 pkgrel=1
 arch=('x86_64')
 license=('GPL2')
@@ -36,48 +37,42 @@ source=(
 )
 
 # revision patches
-if [ ${_patchver} -ne 0 ]; then
+if [[ "$_patchver" =~ ^[0-9]*$ ]]; then
+    if [[ $_patchver -ne 0 ]]; then
     pkgver=$_basekernel.$_patchver
     _patchname="patch-$pkgver"
     source=( "${source[@]}"
         "https://www.kernel.org/pub/linux/kernel/v4.x/${_patchname}.xz"
         "https://www.kernel.org/pub/linux/kernel/v4.x/${_patchname}.sign"
     )
-else
-    pkgver=$_basekernel
+    fi
 fi
 
-# extra patches
+## extra patches
 _extrapatches=(
-    'apple-gmux.patch'
-    'macbook-suspend.patch'
-    'poweroff-quirk-workaround.patch'
 )
-if [ ${#_extrapatches[@]} -ne 0 ]; then
+if [[ ${#_extrapatches[@]} -ne 0 ]]; then
     source=( "${source[@]}"
         "${_extrapatches[@]}"
     )
 fi
 
-sha512sums=('bf67ff812cc3cb7e5059e82cc5db0d9a7c5637f7ed9a42e4730c715bf7047c81ed3a571225f92a33ef0b6d65f35595bc32d773356646df2627da55e9bc7f1f1a'
+sha512sums=('77e43a02d766c3d73b7e25c4aafb2e931d6b16e870510c22cef0cdb05c3acb7952b8908ebad12b10ef982c6efbe286364b1544586e715cf38390e483927904d8'
             'SKIP'
-            '4d5e7270b700e7266f939e64a08c875576eda13c7a489c2a1419fb9c676a22019028cd3632cf00f1e5d75dfa128b9deaacf3af484c5017ef83c5e659e01ba4fc'
+            'e154cd172adcd32e943d7d2d4ef85e17425e0420d900c9afe0f292c6d0721816a3bb5f1f221ad6f1ab303152f86644defeea3a1601ff42fd14962c4d61ced9a3'
             '501627d920b5482b99045b17436110b90f7167d0ed33fe3b4c78753cb7f97e7f976d44e2dae1383eae79963055ef74b704446e147df808cdcb9b634fd406e757'
             '6db48a1d85c6010ad1b0bf5208ba8da39a03f2b67d6e5da80bc054a8730c40e99bcc050f6e559ff813a7bfc561a3257f933474a55c59e5b0705248534bbba7af'
             '8f97c57bf456e9d5a696f93ee86b61411634f39c52dd3307a94eeb79d4d5951b69299001bf086fee32df4d2442fbc8977ac07afb25bc62f01d3f205353f851ae'
             '105e5c4eeb4431170154a719be8c5b6e49ba11abcd11e51d5f70a9d7af7f1da753b28bb9e378e068c37ac799f77907380fb9ea2ff6af3c25aaaf5a4c979993c1'
             'cc249aa48d362a570ec7e16fa9760552fd5fcc3615a29c154b2ee97e51c3c1c1c7449efd031bca59a7b65c473a2afaff075a043dbcb0fbf4a600c83cc9cb8f83'
-            '5fbf5d204fffddcfb2ad89f55254c49c57490936547790e46bcf46c81f209163cdc018d9c9211ec4d7fd6b8ca668eb3c38c06e5b6856c6eee49564bd33ec22fe'
-            'SKIP'
-            '7ec816bfb2e56016eb79614d1619a4921f46a55940b1a4e44d9490375bb63c15c6b61d6275354378d4edc1c88f93afbc08d193c269bcc57a350f9da095e91e10'
-            'f27b52dbf081cb6402b651b02744c99d340eac886cc3deff95ad426246976f37c8c0acae5b5dc80c8b0a642d66882d3dddc841810ce08ae1519a3d0e8c8ce423'
-            '5bf7e9487d3b31c0207a797b7abfd89794249f1dd16689423203722b201a7d1e40735ed957596ffb10b1dacb87d16b99d4560ff87aed7b24322c257c979d5acc')
+            '2566d2151cb0e0ad706dda3cb815e293d84ecc804cf2891e511a0f28e359b7714a1732add599a268c98108a63ee40200cf76cbda8181d67d0a64511e815202df'
+            'SKIP')
 
 prepare() {
     cd "$srcdir/linux-$_basekernel"
 
     # Add revision patches
-    if [ $_patchver -ne 0 ]; then
+    if [[ $_patchver -ne 0 ]]; then
         msg2 "apply $_patchname"
         patch -Np1 -i "$srcdir/$_patchname"
     fi
@@ -213,6 +208,9 @@ package_linux-bede-lts() {
 package_linux-bede-lts-headers() {
     pkgdesc="Header files and scripts for building modules for linux$_kernelname"
     provides=('linux-headers')
+
+    KARCH=x86
+
     install -dm755 "$pkgdir/usr/lib/modules/$_kernver"
     cd "$pkgdir/usr/lib/modules/$_kernver"
     ln -sf ../../../src/linux-$_kernver build
@@ -232,10 +230,6 @@ package_linux-bede-lts-headers() {
     find $(find arch/$KARCH -name include -type d -print) -type f \
         | bsdcpio -pdm "$pkgdir/usr/src/linux-$_kernver"
     install -Dm644 Module.symvers "$pkgdir/usr/src/linux-$_kernver"
-
-    # add docbook makefile
-    install -D -m644 Documentation/DocBook/Makefile \
-        "$pkgdir/usr/src/linux-$_kernver/Documentation/DocBook/Makefile"
 
     # strip scripts directory
     find "$pkgdir/usr/src/linux-$_kernver/scripts" -type f -perm -u+w 2>/dev/null | while read binary ; do

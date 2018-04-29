@@ -7,8 +7,8 @@ _kernelname=-bede-lts
 pkgbase="linux$_kernelname"
 pkgname=("linux$_kernelname" "linux$_kernelname-headers")
 _basekernel=4.14
-_patchver=37
-pkgver=4.14.37
+_patchver=38
+pkgver=4.14.38
 pkgrel=1
 arch=('x86_64')
 license=('GPL2')
@@ -65,7 +65,7 @@ sha512sums=('77e43a02d766c3d73b7e25c4aafb2e931d6b16e870510c22cef0cdb05c3acb7952b
             '8f97c57bf456e9d5a696f93ee86b61411634f39c52dd3307a94eeb79d4d5951b69299001bf086fee32df4d2442fbc8977ac07afb25bc62f01d3f205353f851ae'
             '105e5c4eeb4431170154a719be8c5b6e49ba11abcd11e51d5f70a9d7af7f1da753b28bb9e378e068c37ac799f77907380fb9ea2ff6af3c25aaaf5a4c979993c1'
             '70675b6ca7dab31eb3a9b5461770260751fc8d8d08bbc933decbbd9aa33fea9de4e12bdfd47f121856ed4c7f1282f802baf8ac0196ab8c5865e557aa795b415e'
-            '611e7baa71529ccd2d35d8643f5fb553af795a7b24f677ae0239c96f8c19669f49b7135194b29149212ff6bf0983768a8074c0b107e73bf111f3e0527cfacdad'
+            '735e7f55776a2d0fea3d626c98b8eef1e803d6e0edbfc74212f9ada7c1fc9bca45b0aade4418860ef21feef4af39e774855877f3d3c354c3fe842447525d9750'
             'SKIP')
 
 prepare() {

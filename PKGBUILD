@@ -7,8 +7,8 @@ _kernelname=-bede-lts
 pkgbase="linux$_kernelname"
 pkgname=("linux$_kernelname" "linux$_kernelname-headers")
 _basekernel=4.14
-_patchver=47
-pkgver=4.14.47
+_patchver=48
+pkgver=4.14.48
 pkgrel=1
 arch=('x86_64')
 license=('GPL2')
@@ -50,9 +50,6 @@ fi
 
 ## extra patches
 _extrapatches=(
-    '0001-objtool_Fix_noreturn_detection_for_recursive_sibling_calls.patch'
-    '0002-objtool_support_GCC8_cold_subfunctions.patch'
-    '0003-objtool_support_GCC8_switch_tables.patch'
 )
 if [[ ${#_extrapatches[@]} -ne 0 ]]; then
     source=( "${source[@]}"
@@ -68,11 +65,8 @@ sha512sums=('77e43a02d766c3d73b7e25c4aafb2e931d6b16e870510c22cef0cdb05c3acb7952b
             '8f97c57bf456e9d5a696f93ee86b61411634f39c52dd3307a94eeb79d4d5951b69299001bf086fee32df4d2442fbc8977ac07afb25bc62f01d3f205353f851ae'
             '105e5c4eeb4431170154a719be8c5b6e49ba11abcd11e51d5f70a9d7af7f1da753b28bb9e378e068c37ac799f77907380fb9ea2ff6af3c25aaaf5a4c979993c1'
             '70675b6ca7dab31eb3a9b5461770260751fc8d8d08bbc933decbbd9aa33fea9de4e12bdfd47f121856ed4c7f1282f802baf8ac0196ab8c5865e557aa795b415e'
-            '8617397002936b43c598350c562cb0dac1d93577b1b1e13478835f554d08289facf2051276db7a3eacfe1bd5aa2e5ffdbe3ba86d05454c6b4e27f42ea8f05945'
-            'SKIP'
-            '5d2ac655af70769167a7627d40ba328148d191551b650f555db19f91f9a962769e5946f655a390947fcee9262410340380cb95786c7325871ed4fdf4cf3e4902'
-            'f09a78a325b8f9f2edafbfea3101a2b4aa22922485c9977583ad5ee044fc821b09c11dda4546cbb9e4c4cf3f0d0d10ca8bf5dc9f1814e1e2c11d8b6caea7c6eb'
-            '2e6bb4b717b5794cbb92711eb3c2b4c0fbb0e055f8ecc5f2129987d027976fc7062a1f1629cafd48d7e1e884f284f41da16f3808b9609aa9ded33109b78ece8b')
+            'f87144768ba221c073f7e1fbdda340c65a7d5de28bdea492c61d8f05eedc54a3f190daa48611ead331755d2a12f8cb704399cd5a762e2227299980fecb372595'
+            'SKIP')
 
 prepare() {
     cd "$srcdir/linux-$_basekernel"

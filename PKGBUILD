@@ -9,7 +9,7 @@ pkgname=("linux$_kernelname" "linux$_kernelname-headers")
 _basekernel=4.14
 _patchver=61
 pkgver=4.14.61
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
 license=('GPL2')
 makedepends=('bc' 'kmod')
@@ -60,7 +60,7 @@ sha512sums=('77e43a02d766c3d73b7e25c4aafb2e931d6b16e870510c22cef0cdb05c3acb7952b
             'SKIP'
             '357164a7611c2d4d353b4e961c49ad32535414061d2f52d984f0ef290682dadd3f20601cd858cd382b5cc6b80083802d1848fe56d5937beea6a1921f54a9d348'
             '501627d920b5482b99045b17436110b90f7167d0ed33fe3b4c78753cb7f97e7f976d44e2dae1383eae79963055ef74b704446e147df808cdcb9b634fd406e757'
-            '6db48a1d85c6010ad1b0bf5208ba8da39a03f2b67d6e5da80bc054a8730c40e99bcc050f6e559ff813a7bfc561a3257f933474a55c59e5b0705248534bbba7af'
+            '2d25bfb0e1bc46d36b62071bc32db95edba7b092d485453b5c4772090e5c4a8677897b52572f0cab774b02a4155ee638acc89ad4a948f7752444875a2afb19df'
             '8f97c57bf456e9d5a696f93ee86b61411634f39c52dd3307a94eeb79d4d5951b69299001bf086fee32df4d2442fbc8977ac07afb25bc62f01d3f205353f851ae'
             '105e5c4eeb4431170154a719be8c5b6e49ba11abcd11e51d5f70a9d7af7f1da753b28bb9e378e068c37ac799f77907380fb9ea2ff6af3c25aaaf5a4c979993c1'
             'ae8c812f0021d38cd881e37a41960dc189537c52042a7d37c47072698b01de593412de1e30eb0d45504924c415bf086624493a22ae18ee5d24a196ec5b31a9f3'
@@ -146,6 +146,7 @@ package_linux-bede-lts() {
     install=$pkgname.install
 
     KARCH=x86
+
     cd "$srcdir/linux-$_basekernel"
 
     mkdir -p "$pkgdir"/{lib/modules,lib/firmware,boot,usr}
@@ -232,6 +233,21 @@ package_linux-bede-lts-headers() {
         | bsdcpio -pdm "$pkgdir/usr/src/linux-$_kernver"
     install -Dm644 Module.symvers "$pkgdir/usr/src/linux-$_kernver"
 
+    # cleanup other architectures
+    for arch in "$pkgdir/usr/src/linux-$_kernver"/arch/*/; do
+        [[ $arch = */$KARCH/ ]] && continue
+        echo "Removing ./arch/$(basename "$arch")"
+        rm -r "$arch"
+    done
+    for arch in "$pkgdir/usr/src/linux-$_kernver"/tools/perf/arch/*/; do
+        [[ $arch = */$KARCH/ ]] && continue
+        echo "Removing ./tools/perf/arch/$(basename "$arch")"
+        rm -r "$arch"
+    done
+
+    # remove object files
+    find "$pkgdir/usr/src/linux-$_kernver" -type f -name '*.o' -printf 'Removing %P\n' -delete
+
     # add objtool for external module building and enabled VALIDATION_STACK option
     install -Dm755 tools/objtool/objtool \
         "$pkgdir/usr/src/linux-$_kernver/tools/objtool/objtool"
@@ -248,9 +264,14 @@ package_linux-bede-lts-headers() {
             *application/x-executable*) # Binaries
                 /usr/bin/strip $STRIP_BINARIES "$binary"
                 ;;
+            *application/x-pie-executable*) # Relocatable binaries
+                /usr/bin/strip $STRIP_SHARED "$binary"
+                ;;
         esac
     done
 
+    # "fix" owner
     chown -R root:root "$pkgdir/usr/src/linux-$_kernver"
-    find "$pkgdir/usr/src/linux-$_kernver" -type d -exec chmod 755 {} \;
+    # "fix" permissions
+    chmod -Rc u=rwX,go=rX "$pkgdir"
 }

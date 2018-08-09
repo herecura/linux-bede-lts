@@ -7,9 +7,9 @@ _kernelname=-bede-lts
 pkgbase="linux$_kernelname"
 pkgname=("linux$_kernelname" "linux$_kernelname-headers")
 _basekernel=4.14
-_patchver=61
-pkgver=4.14.61
-pkgrel=2
+_patchver=62
+pkgver=4.14.62
+pkgrel=1
 arch=('x86_64')
 license=('GPL2')
 makedepends=('bc' 'kmod')
@@ -64,7 +64,7 @@ sha512sums=('77e43a02d766c3d73b7e25c4aafb2e931d6b16e870510c22cef0cdb05c3acb7952b
             '8f97c57bf456e9d5a696f93ee86b61411634f39c52dd3307a94eeb79d4d5951b69299001bf086fee32df4d2442fbc8977ac07afb25bc62f01d3f205353f851ae'
             '105e5c4eeb4431170154a719be8c5b6e49ba11abcd11e51d5f70a9d7af7f1da753b28bb9e378e068c37ac799f77907380fb9ea2ff6af3c25aaaf5a4c979993c1'
             'ae8c812f0021d38cd881e37a41960dc189537c52042a7d37c47072698b01de593412de1e30eb0d45504924c415bf086624493a22ae18ee5d24a196ec5b31a9f3'
-            'ef649ffed6c45ccd1b163649cc4cf1a281220cdd3227f4336fcf715e282b312a2068e5d69188ec28185e4a67d4a688c88eaf6030c4ec1460b7d601772f3527da')
+            'c0f3746650d697d5bf3c84f9ed3646d32e746102f51f87b62999d49f4ab43dd18fcb7b14d9f5e6fc0329af68e22cec761b1ab6a1395ca5e367151edd5e221407')
 
 prepare() {
     cd "$srcdir/linux-$_basekernel"

@@ -6,8 +6,8 @@
 _kernelname=-bede-lts
 pkgbase="linux$_kernelname"
 pkgname=("linux$_kernelname" "linux$_kernelname-headers")
-_basekernel=4.14
-_patchver=91
+_basekernel=4.19
+_patchver=13
 if [[ $_patchver -ne 0 ]]; then
     _tag=v${_basekernel}.${_patchver}
     pkgver=${_basekernel}.${_patchver}
@@ -51,7 +51,7 @@ if [[ ${#_extrapatches[@]} -ne 0 ]]; then
 fi
 
 sha512sums=('SKIP'
-            'a93b4ea92f4d65cfba61aae7551e53c734d3e5ff3818fce1910ce25c4b0fe6d4eae172aac8bbcfef9e44c37f950305ec20c35656332c1368357e19f2f375e839'
+            '067cd357f3fa74bd2ccc38269350ccac7e5dc4809c32c4b180bb46d2d65b064ab11cc483175e1436179d60dc28c638638ffc47ae7c316e7862363c7a33693ab8'
             '501627d920b5482b99045b17436110b90f7167d0ed33fe3b4c78753cb7f97e7f976d44e2dae1383eae79963055ef74b704446e147df808cdcb9b634fd406e757'
             '2d25bfb0e1bc46d36b62071bc32db95edba7b092d485453b5c4772090e5c4a8677897b52572f0cab774b02a4155ee638acc89ad4a948f7752444875a2afb19df'
             '8f97c57bf456e9d5a696f93ee86b61411634f39c52dd3307a94eeb79d4d5951b69299001bf086fee32df4d2442fbc8977ac07afb25bc62f01d3f205353f851ae'
@@ -209,6 +209,8 @@ package_linux-bede-lts-headers() {
         -o -name '*.lds' \) | bsdcpio -pdm "$pkgdir/usr/src/linux-$_kernver"
     cp -a scripts include "$pkgdir/usr/src/linux-$_kernver"
     find $(find arch/$KARCH -name include -type d -print) -type f \
+        | bsdcpio -pdm "$pkgdir/usr/src/linux-$_kernver"
+    find $(find arch/x86 -name kernel -type d -print) -iname '*.s' -type f \
         | bsdcpio -pdm "$pkgdir/usr/src/linux-$_kernver"
     install -Dm644 Module.symvers "$pkgdir/usr/src/linux-$_kernver"
 

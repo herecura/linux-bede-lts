@@ -1,8 +1,9 @@
 dependencypackages=(
-    'broadcom-wl-bede-lts'
     'bbswitch-bede-lts'
-    'nvidia-bede-lts'
+    'broadcom-wl-bede-lts'
+    'deepin-anything-module-bede-lts'
     'nvidia-390xx-bede-lts'
+    'nvidia-bede-lts'
     'virtualbox-modules-bede-lts'
 )
 

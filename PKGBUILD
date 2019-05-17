@@ -15,7 +15,7 @@ else
     _tag=v${_basekernel}
     pkgver=${_basekernel}
 fi
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
 license=('GPL2')
 makedepends=('git' 'bc' 'kmod')
@@ -51,7 +51,7 @@ if [[ ${#_extrapatches[@]} -ne 0 ]]; then
 fi
 
 sha512sums=('SKIP'
-            '5b8a779ac9e779d4d81f82f7ff5f63cfea9354f61341a2dff4f0d33062c471ed2cd0450a4131027a76d42ebbf052b4d2cefd86dd6dd22b21871865bb296b15f1'
+            '1876eba844da5820646b2220efe87ac7d002de4fc763dd13b3e73dc31d6d703c93f6fcdffca38f7a9489c24511aa7eae56ec3a494e6a8c57e4da1e600a13c5fb'
             '501627d920b5482b99045b17436110b90f7167d0ed33fe3b4c78753cb7f97e7f976d44e2dae1383eae79963055ef74b704446e147df808cdcb9b634fd406e757'
             '2d25bfb0e1bc46d36b62071bc32db95edba7b092d485453b5c4772090e5c4a8677897b52572f0cab774b02a4155ee638acc89ad4a948f7752444875a2afb19df'
             '8f97c57bf456e9d5a696f93ee86b61411634f39c52dd3307a94eeb79d4d5951b69299001bf086fee32df4d2442fbc8977ac07afb25bc62f01d3f205353f851ae'

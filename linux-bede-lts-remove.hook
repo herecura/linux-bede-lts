@@ -1,9 +1,0 @@
-[Trigger]
-Type = File
-Operation = Remove
-Target = boot/vmlinuz-bede-lts
-
-[Action]
-Description = remove initramfs files for linux-bede-lts
-When = PreTransaction
-Exec = /usr/bin/rm /boot/initramfs-bede-lts.img /boot/initramfs-bede-lts-fallback.img

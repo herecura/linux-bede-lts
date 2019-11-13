@@ -7,7 +7,7 @@ _kernelname=-bede-lts
 pkgbase="linux$_kernelname"
 pkgname=("linux$_kernelname" "linux$_kernelname-headers")
 _basekernel=4.19
-_patchver=83
+_patchver=84
 if [[ $_patchver -ne 0 ]]; then
     _tag=v${_basekernel}.${_patchver}
     pkgver=${_basekernel}.${_patchver}
@@ -15,7 +15,7 @@ else
     _tag=v${_basekernel}
     pkgver=${_basekernel}
 fi
-pkgrel=2
+pkgrel=1
 arch=('x86_64')
 license=('GPL2')
 makedepends=('git' 'bc' 'kmod')
@@ -45,7 +45,7 @@ if [[ ${#_extrapatches[@]} -ne 0 ]]; then
 fi
 
 sha512sums=('SKIP'
-            '7fc53d2cf26064087426d8bdfd25ccb053ccc7b42fb96910e7f59f81f20aee0e5d0b06a183a1b304ea79b8709f8fee65585339f77022b5f363684381c82847cd'
+            '6683af3f7c1ce3f7c852209d4842823b3ddabfae1a29bb364c2495c6fec0b7363ac632fe4fc9aa8eeabf2c8051ad9a91b6f73ebd8344bce7acf841745bd8cbc2'
             'ae8c812f0021d38cd881e37a41960dc189537c52042a7d37c47072698b01de593412de1e30eb0d45504924c415bf086624493a22ae18ee5d24a196ec5b31a9f3')
 
 export KBUILD_BUILD_HOST=blackeagle

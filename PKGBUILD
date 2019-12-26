@@ -6,8 +6,8 @@
 _kernelname=-bede-lts
 pkgbase="linux$_kernelname"
 pkgname=("linux$_kernelname" "linux$_kernelname-headers")
-_basekernel=4.19
-_patchver=91
+_basekernel=5.4
+_patchver=6
 if [[ $_patchver -ne 0 ]]; then
     _tag=v${_basekernel}.${_patchver}
     pkgver=${_basekernel}.${_patchver}
@@ -23,8 +23,9 @@ url="http://www.kernel.org"
 options=(!strip)
 
 validpgpkeys=(
-    'ABAF11C65A2970B130ABE3C479BE3E4300411886'
-    '647F28654894E3BD457199BE38DBBDC86092693E'
+    'ABAF11C65A2970B130ABE3C479BE3E4300411886'  # "Linus Torvalds"
+    '647F28654894E3BD457199BE38DBBDC86092693E'  # "Greg Kroah-Hartman"
+    'E27E5D8A3403A2EF66873BBCDEA66FF797772CDC'  # "Sasha Levin"
 )
 
 source=(
@@ -45,7 +46,7 @@ if [[ ${#_extrapatches[@]} -ne 0 ]]; then
 fi
 
 sha512sums=('SKIP'
-            '6683af3f7c1ce3f7c852209d4842823b3ddabfae1a29bb364c2495c6fec0b7363ac632fe4fc9aa8eeabf2c8051ad9a91b6f73ebd8344bce7acf841745bd8cbc2'
+            '83a7ed090a89a0d37630b2db89dfe181a68013db1ce6437ce4d4938eae33cbd4fde14287d79c03c9c7e6462e8441af888682c42e2999d8e7b3eb3617f83cfdef'
             'ae8c812f0021d38cd881e37a41960dc189537c52042a7d37c47072698b01de593412de1e30eb0d45504924c415bf086624493a22ae18ee5d24a196ec5b31a9f3')
 
 export KBUILD_BUILD_HOST=blackeagle

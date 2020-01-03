@@ -15,7 +15,7 @@ else
     _tag=v${_basekernel}
     pkgver=${_basekernel}
 fi
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
 license=('GPL2')
 makedepends=('git' 'bc' 'kmod')
@@ -46,7 +46,7 @@ if [[ ${#_extrapatches[@]} -ne 0 ]]; then
 fi
 
 sha512sums=('SKIP'
-            '0df51615ae8cc101cf0cf200a733ab64d8e4907affef419ce55a6f3751d318db5e33a173e941e17fe50e7987f8532f60f19a597d72d98f6f69836e5b24839270'
+            '1202601c684eb7f889c4564be484866d2915d74c2108af26d75d570ba79af8e66223b3797e2f0b10d87b38abe403134a23b6839a608f460ee66a887c5bf06236'
             'ae8c812f0021d38cd881e37a41960dc189537c52042a7d37c47072698b01de593412de1e30eb0d45504924c415bf086624493a22ae18ee5d24a196ec5b31a9f3')
 
 export KBUILD_BUILD_HOST=blackeagle

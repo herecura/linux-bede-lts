@@ -15,7 +15,7 @@ else
     _tag=v${_basekernel}
     pkgver=${_basekernel}
 fi
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
 license=('GPL2')
 makedepends=('git' 'bc' 'kmod')
@@ -46,7 +46,7 @@ if [[ ${#_extrapatches[@]} -ne 0 ]]; then
 fi
 
 sha512sums=('SKIP'
-            '0f5268e43060fac96a3316d010c4812ac28806fbfbbdcf99ccc09f1c4adab85865a678f1603a91b0cf17f0601d695a366e559ac6e2b47fa018de8b9d546363c8'
+            'ac9295b92af3925cabb7772ae5002793f1f839dfd59fa32b783e7641c8a4963e512bc3a72ce944e98c8744bddc2e11e5c32c73203247221791a11e9b3fa58bed'
             'ae8c812f0021d38cd881e37a41960dc189537c52042a7d37c47072698b01de593412de1e30eb0d45504924c415bf086624493a22ae18ee5d24a196ec5b31a9f3')
 
 export KBUILD_BUILD_HOST=blackeagle
@@ -89,6 +89,7 @@ build() {
     make prepare
     # load configuration
     # Configure the kernel. Replace the line below with one of your choice.
+    #make nconfig # CLI menu for configuration
     #make menuconfig # CLI menu for configuration
     #make xconfig # X-based configuration
     #make oldconfig # using old config from previous kernel version
@@ -113,6 +114,12 @@ package_linux-bede-lts() {
     optdepends=(
         'crda: to set the correct wireless channels of your country'
         'linux-firmware: when having some hardware needing special firmware'
+    )
+    provides=(
+        'DEEPIN-ANYTHING-MODULE'
+    )
+    replaces=(
+        'deepin-anything-module-bede-lts'
     )
     install=$pkgname.install
 

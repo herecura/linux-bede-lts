@@ -38,6 +38,16 @@ source=(
 
 ## extra patches
 _extrapatches=(
+    '0001-Makefile-disallow-data-races-on-gcc-10-as-well.patch'
+    '0004-drop_monitor-work-around-gcc-10-stringop-overflow-wa.patch'
+    '0005-gcc-10-warnings-fix-low-hanging-fruit.patch'
+    '0007-Stop-the-ad-hoc-games-with-Wno-maybe-initialized.patch'
+    '0008-gcc-10-disable-zero-length-bounds-warning-for-now.patch'
+    '0009-gcc-10-disable-array-bounds-warning-for-now.patch'
+    '0010-gcc-10-disable-stringop-overflow-warning-for-now.patch'
+    '0011-gcc-10-disable-restrict-warning-for-now.patch'
+    '0013-gcc-10-mark-more-functions-__init-to-avoid-section-m.patch'
+    'x86-fix-early-boot-crash-on-gcc-10-next-try.patch'
 )
 if [[ ${#_extrapatches[@]} -ne 0 ]]; then
     source=( "${source[@]}"
@@ -47,7 +57,17 @@ fi
 
 sha512sums=('SKIP'
             'ebab7f5dde16762a0e8a902c0150d70a1bf130561300f87a1a129271d6d5832630b1477f380f772d6360dfc7d702b4ff4e1ef9f9c0216da2a17bcdd9428bf60e'
-            'ae8c812f0021d38cd881e37a41960dc189537c52042a7d37c47072698b01de593412de1e30eb0d45504924c415bf086624493a22ae18ee5d24a196ec5b31a9f3')
+            'ae8c812f0021d38cd881e37a41960dc189537c52042a7d37c47072698b01de593412de1e30eb0d45504924c415bf086624493a22ae18ee5d24a196ec5b31a9f3'
+            '19ae7c62329dae6531b60ef4a5fcb9a49afc80b03aea216c7b5caf8e05012035ff2058d22d12c82dbb6b3f2e6c1fca6f2564237f75179655cd64f01805cb4ee5'
+            '5a96df55ae0e207f04640b3850026c97715e371cd9e810677dcfa7a98492694dda1fc1ec01dbbb150255f1d22a5ea62851759a0963355abb4a8fa35007057d94'
+            'c4d992cb7e04883654a63d09b0d8ed6fc6dcbacc0bcca5fb55dbb8831d4d06db2ac6757c97eb095323f061885bbfedc9de529425a1db4dafdc023f24f6e2d612'
+            'c1a7ab653af16db19daf1ccd2a168054dcc23aad7a9c1f1f49c6c11943fe80aa156acc69a87476cfdea3f5c7e3988c5d6777030e6b0e2d21f65cc0fc5987d88f'
+            'c1153eb5d7d4f9f1ecba4827ef4897c7b6fd501f55a6c32b6ae4eb358420636640b2f53d8c34f2fbac954a36cc40aac51de73ca5c6444db89fb07c414ed6126e'
+            '3582c9a91806238ff02962a5139adebbec5c6af445646e4b17ab1932bb416a6f9f77d9c4a8333a0c304e63e2b2a29ca98988b58bb5e1c3a4687f8b19adf62a6f'
+            'b670d888b792e1eb0aae61431e92fecfe9b1946531ca8c710ee6081611ef7dd5ab602fa293b261b2179aac47450b6e1f78cfa31d397aae85ee4cc886dc005eaf'
+            '55a36b5fcdf37d9e992691766167c44c75244ec5e413a99803e33994484a4bc36813a8d46f6cf26db7b5be6a7705149dc3ecd77f9e88fe0e7b5c7f2ee0f1de53'
+            '69f59b28d815bc459f6ba1448d7b1d9455eae8afe632e7b1d19e3caba9a75e66efbe8e4b748247b5b49c9c429b4316e1462474932ddadb6c60ee97f0954edd1a'
+            'ddb32996639d2d38aa71a5608b2fec32a955b8f837ec1a3dcdb3627dae2d57bf345815098417cb69d9675999ab5cba0d125e553240705a854c21043687f5b532')
 
 export KBUILD_BUILD_HOST=blackeagle
 export KBUILD_BUILD_USER=$pkgbase

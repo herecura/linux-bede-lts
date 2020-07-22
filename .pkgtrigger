@@ -3,6 +3,7 @@ dependencypackages=(
     'broadcom-wl-bede-lts'
     'nvidia-bede-lts'
     'nvidia-390xx-bede-lts'
+    'tuxedo-cc-wmi-bede-lts'
     'virtualbox-modules-bede-lts'
 )
 

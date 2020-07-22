@@ -121,7 +121,6 @@ package_linux-bede-lts() {
     replaces=(
         'deepin-anything-module-bede-lts'
     )
-    install=$pkgname.install
 
     cd "$srcdir/linux-stable"
     local kernver="$(<version)"
